@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Каталог | Мобильное приложение одежды</title>
+  
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Хедер сайта -->
+  <header class="header">
+    <div class="container header-inner">
+      
+      <!-- Логотип "Каталог" -->
+      <div class="brand-block">
+        <a href="index.html" class="logo">Каталог</a>
+        <span class="logo-sub">Модный гардероб</span>
+      </div>
+
+      <!-- Десктоп навигация -->
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link active">Каталог</a>
+        <a href="product.html?id=coat" class="nav-link">Товар недели</a>
+        <a href="cart.html" class="nav-link">Корзина</a>
+      </nav>
+
+      <!-- Иконки действий: Избранное и Корзина -->
+      <div class="header-actions">
+        <a href="index.html" class="icon-btn" title="Избранное" aria-label="Избранное">
+          ♥
+          <span class="badge wishlist-badge" style="display: none;">0</span>
+        </a>
+        <a href="cart.html" class="icon-btn" aria-label="Перейти в корзину" title="Корзина">
+          🛒
+          <span class="badge cart-badge">0</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Основной контент -->
+  <main class="container">
+
+    <!-- Поиск по каталогу -->
+    <section class="search-section">
+      <div class="search-box">
+        <span style="color: var(--text-muted); font-size: 0.95rem;">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Поиск вещей, бренда или категории...">
+      </div>
+    </section>
+
+    <!-- Секция категорий -->
+    <section>
+      <h2 class="section-title">Категории</h2>
+      <div class="categories-scroll">
+        <div class="category-card active" data-category="all">
+          <div class="category-thumb">✨</div>
+          <div class="category-info">
+            <span class="category-name">Все товары</span>
+            <span class="category-count">10 товаров</span>
+          </div>
+        </div>
+        <div class="category-card" data-category="women">
+          <div class="category-thumb">👗</div>
+          <div class="category-info">
+            <span class="category-name">Женская</span>
+            <span class="category-count">4 товара</span>
+          </div>
+        </div>
+        <div class="category-card" data-category="men">
+          <div class="category-thumb">👔</div>
+          <div class="category-info">
+            <span class="category-name">Мужская</span>
+            <span class="category-count">2 товара</span>
+          </div>
+        </div>
+        <div class="category-card" data-category="shoes">
+          <div class="category-thumb">👞</div>
+          <div class="category-info">
+            <span class="category-name">Обувь</span>
+            <span class="category-count">2 товара</span>
+          </div>
+        </div>
+        <div class="category-card" data-category="bags">
+          <div class="category-thumb">👜</div>
+          <div class="category-info">
+            <span class="category-name">Сумки & Аксессуары</span>
+            <span class="category-count">2 товара</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Динамический каталог товаров -->
+    <section class="catalog-section">
+      <h2 class="section-title">Коллекция сезона</h2>
+      
+      <!-- Динамическая сетка карточек -->
+      <div class="product-grid" id="catalogDynamicGrid">
+        <!-- JS рендерит карточки здесь -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container" style="display: flex; flex-direction: column; gap: 0.3rem; align-items: center;">
+      <span class="logo" style="font-size: 1.1rem;">Каталог</span>
+      <p style="font-size: 0.75rem; color: var(--text-muted);">© 2026 Мобильное приложение одежды (WebView).</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
