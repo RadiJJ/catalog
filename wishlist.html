@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Каталог | Товар</title>
+  <title>Каталог | Избранное</title>
   
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+  <!-- Хедер сайта -->
   <header class="header">
     <div class="container header-inner">
       <div class="brand-block">
@@ -19,14 +20,14 @@
 
       <nav class="nav-menu">
         <a href="index.html" class="nav-link">Каталог</a>
-        <a href="product.html?id=coat" class="nav-link active">Товар недели</a>
-        <a href="wishlist.html" class="nav-link">Избранное</a>
+        <a href="product.html?id=coat" class="nav-link">Товар недели</a>
+        <a href="wishlist.html" class="nav-link active">Избранное</a>
         <a href="cart.html" class="nav-link">Корзина</a>
       </nav>
 
       <div class="header-actions">
-        <a href="wishlist.html" class="icon-btn" title="Избранное">
-          <svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <a href="wishlist.html" class="icon-btn active" title="Избранное">
+          <svg class="icon-svg filled" width="20" height="20" viewBox="0 0 24 24" fill="#C47847" stroke="#C47847" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
           <span class="badge wishlist-badge" style="display: none;">0</span>
         </a>
         <a href="cart.html" class="icon-btn" aria-label="Перейти в корзину">
@@ -39,15 +40,16 @@
 
   <main class="container">
     
-    <!-- Хлебные крошки -->
-    <div id="productBreadcrumbs" style="margin-top: 0.8rem; font-size: 0.8rem; color: var(--text-muted);">
+    <div style="margin-top: 0.8rem; font-size: 0.8rem; color: var(--text-muted);">
       <a href="index.html" style="color: var(--text-secondary);">Каталог</a> / 
-      <span>Загрузка...</span>
+      <span>Избранное</span>
     </div>
 
-    <!-- Динамический контейнер детализации товара -->
-    <div class="product-detail-layout" id="productDetailContainer">
-      <!-- JS подгрузит детали выбранного товара -->
+    <h1 style="font-size: 1.4rem; font-weight: 700; margin-top: 0.4rem; margin-bottom: 1rem;">Избранные товары</h1>
+
+    <!-- Динамическая сетка избранных товаров -->
+    <div class="product-grid" id="wishlistDynamicGrid">
+      <!-- JS рендерит список избранного -->
     </div>
 
   </main>

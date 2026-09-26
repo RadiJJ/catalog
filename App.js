@@ -9,7 +9,7 @@ import { WebView } from 'react-native-webview';
  * 
  * Укажите URL опубликованного сайта на GitHub Pages в переменной GITHUB_PAGES_URL.
  */
-const GITHUB_PAGES_URL = 'https://YOUR_USERNAME.github.io/clothing-catalog/';
+const GITHUB_PAGES_URL = 'https://radijj.github.io/catalog/';
 
 export default function App() {
   const [loading, setLoading] = useState(true);

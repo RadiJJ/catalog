@@ -1,6 +1,6 @@
 /* ==========================================================================
    КАТАЛОГ ОДЕЖДЫ - WARM MINIMAL ELEGANT UI (MODAN STYLE)
-   Mobile First, CSS Flexbox / Grid, Warm Cream Palette, Real Fashion Photos
+   Mobile First, CSS Flexbox / Grid, Warm Cream Palette, SVG Vector Icons
    ========================================================================== */
 
 :root {
@@ -49,6 +49,14 @@ body {
   max-width: 980px;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* SVG Vector Icons Styling */
+.icon-svg {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  transition: var(--transition);
 }
 
 /* Header */
@@ -112,11 +120,14 @@ body {
   color: var(--text-primary);
   position: relative;
   transition: var(--transition);
+  border: 1px solid var(--accent-border);
 }
 
-.icon-btn:hover {
+.icon-btn:hover, .icon-btn.active {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(44, 38, 35, 0.08);
+  border-color: var(--accent-price);
+  color: var(--accent-price);
 }
 
 .badge {
@@ -255,7 +266,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  color: var(--text-primary);
 }
 
 .category-info {
@@ -315,7 +326,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.45 ease;
+  transition: transform 0.45s ease;
 }
 
 .product-card:hover .product-img {
@@ -360,7 +371,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
   z-index: 2;
   transition: var(--transition);
   border: none;
@@ -488,9 +498,9 @@ body {
   position: static;
   width: 2.5rem;
   height: 2.5rem;
-  font-size: 1.2rem;
   background: var(--bg-card);
   box-shadow: var(--shadow-soft);
+  border: 1px solid var(--accent-border);
 }
 
 .size-options {
@@ -626,7 +636,9 @@ body {
   background: transparent;
   border: none;
   color: var(--text-muted);
-  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   padding: 0.4rem;
   transition: var(--transition);
@@ -645,6 +657,22 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.empty-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+}
+
+.empty-icon-wrapper .icon-svg {
+  width: 2.2rem;
+  height: 2.2rem;
 }
 
 .order-summary {
@@ -743,8 +771,8 @@ body {
 }
 
 .modal-icon {
-  font-size: 2.8rem;
-  text-align: center;
+  display: flex;
+  justify-content: center;
   margin-bottom: 0.5rem;
 }
 

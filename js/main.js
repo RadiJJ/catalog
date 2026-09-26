@@ -1,9 +1,23 @@
 /**
  * КАТАЛОГ ОДЕЖДЫ - MODAN STYLE LOGIC
- * Динамический каталог, корзина, избранное и оформление заказа
+ * Динамический каталог, корзина, отдельная страница Избранного и оформление заказа
  */
 
-/* 1. БАЗА ДАННЫХ ТОВАРОВ */
+/* 1. ВЕКТОРНЫЕ ИКОНКИ (SVG) */
+const SVG_ICONS = {
+  heartOutline: `<svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`,
+  heartFilled: `<svg class="icon-svg filled" width="20" height="20" viewBox="0 0 24 24" fill="#C47847" stroke="#C47847" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`,
+  cart: `<svg class="icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`,
+  trash: `<svg class="icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`,
+  search: `<svg class="icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`,
+  close: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+  checkCircle: `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C47847" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`,
+  location: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`,
+  phone: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>`,
+  truck: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>`
+};
+
+/* 2. БАЗА ДАННЫХ ТОВАРОВ */
 const PRODUCTS_DATA = [
   {
     id: 'cardigan',
@@ -147,7 +161,7 @@ const PRODUCTS_DATA = [
   }
 ];
 
-/* 2. ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ */
+/* 3. ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ */
 document.addEventListener('DOMContentLoaded', () => {
   initCartCounter();
   initWishlistCounter();
@@ -156,9 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initSearch();
   initProductDetailsPage();
   initCartPage();
+  initWishlistPage();
 });
 
-/* 3. УПРАВЛЕНИЕ КОРЗИНОЙ (localStorage) */
+/* 4. УПРАВЛЕНИЕ КОРЗИНОЙ (localStorage) */
 function getCart() {
   const cart = localStorage.getItem('modan_catalog_cart');
   if (cart) {
@@ -168,7 +183,6 @@ function getCart() {
       return [];
     }
   }
-  // Значение по умолчанию для демонстрации
   return [
     { id: 'cardigan', title: 'Шерстяной кардиган', price: 78, qty: 1, img: 'assets/cardigan.jpg', size: 'M' },
     { id: 'coat', title: 'Пальто оверсайз', price: 99, qty: 1, img: 'assets/coat.jpg', size: 'M' }
@@ -220,7 +234,7 @@ function addToCart(productId, size = 'M', event = null) {
   showToast(`"${product.title}" (${size}) добавлен в корзину!`);
 }
 
-/* 4. УПРАВЛЕНИЕ ИЗБРАННЫМ (localStorage) */
+/* 5. УПРАВЛЕНИЕ ИЗБРАННЫМ (localStorage) */
 function getWishlist() {
   const wishlist = localStorage.getItem('modan_catalog_wishlist');
   return wishlist ? JSON.parse(wishlist) : ['coat', 'bag'];
@@ -251,6 +265,12 @@ function toggleWishlist(productId, btnEl = null, event = null) {
   }
 
   saveWishlist(wishlist);
+
+  // Если находимся на странице Избранного, перерендерим список
+  const wishlistContainer = document.getElementById('wishlistDynamicGrid');
+  if (wishlistContainer) {
+    renderWishlistItems();
+  }
 }
 
 function updateWishlistUI() {
@@ -261,10 +281,10 @@ function updateWishlistUI() {
     const id = btn.getAttribute('data-id');
     if (id) {
       if (wishlist.includes(id)) {
-        btn.textContent = '♥';
+        btn.innerHTML = SVG_ICONS.heartFilled;
         btn.classList.add('active');
       } else {
-        btn.textContent = '♡';
+        btn.innerHTML = SVG_ICONS.heartOutline;
         btn.classList.remove('active');
       }
     }
@@ -281,7 +301,7 @@ function initWishlistCounter() {
   updateWishlistUI();
 }
 
-/* 5. УВЕДОМЛЕНИЯ (Toast) */
+/* 6. УВЕДОМЛЕНИЯ (Toast) */
 function showToast(message) {
   let toast = document.getElementById('toast');
   if (!toast) {
@@ -298,7 +318,7 @@ function showToast(message) {
   }, 2300);
 }
 
-/* 6. РЕНДЕР И ФИЛЬТРАЦИЯ КАТАЛОГА (index.html) */
+/* 7. РЕНДЕР И ФИЛЬТРАЦИЯ КАТАЛОГА (index.html) */
 function initCatalogGrid() {
   const catalogContainer = document.getElementById('catalogDynamicGrid');
   if (!catalogContainer) return;
@@ -316,7 +336,7 @@ function renderProductsGrid(products) {
   if (products.length === 0) {
     catalogContainer.innerHTML = `
       <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary);">
-        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Ничего не найдено 😔</p>
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Ничего не найдено</p>
         <p style="font-size: 0.85rem; color: var(--text-muted);">Попробуйте изменить запрос или выбрать другую категорию</p>
       </div>
     `;
@@ -333,7 +353,7 @@ function renderProductsGrid(products) {
       <div class="product-img-wrapper">
         ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
         <button class="btn-wishlist ${isLiked ? 'active' : ''}" data-id="${product.id}" onclick="toggleWishlist('${product.id}', this, event)" title="В избранное">
-          ${isLiked ? '♥' : '♡'}
+          ${isLiked ? SVG_ICONS.heartFilled : SVG_ICONS.heartOutline}
         </button>
         <a href="product.html?id=${product.id}">
           <img src="${product.img}" alt="${product.title}" class="product-img" loading="lazy">
@@ -399,7 +419,7 @@ function initSearch() {
   });
 }
 
-/* 7. ДИНАМИЧЕСКАЯ СТРАНИЦА ТОВАРА (product.html) */
+/* 8. ДИНАМИЧЕСКАЯ СТРАНИЦА ТОВАРА (product.html) */
 function initProductDetailsPage() {
   const productContainer = document.getElementById('productDetailContainer');
   if (!productContainer) return;
@@ -410,7 +430,6 @@ function initProductDetailsPage() {
 
   document.title = `Каталог | ${product.title}`;
 
-  // Обновление крошек
   const breadcrumbEl = document.getElementById('productBreadcrumbs');
   if (breadcrumbEl) {
     breadcrumbEl.innerHTML = `
@@ -436,7 +455,7 @@ function initProductDetailsPage() {
           <h1 class="detail-title">${product.title}</h1>
         </div>
         <button class="btn-wishlist detail-wishlist-btn ${isLiked ? 'active' : ''}" data-id="${product.id}" onclick="toggleWishlist('${product.id}', this, event)">
-          ${isLiked ? '♥' : '♡'}
+          ${isLiked ? SVG_ICONS.heartFilled : SVG_ICONS.heartOutline}
         </button>
       </div>
       
@@ -474,7 +493,6 @@ function initProductDetailsPage() {
     </section>
   `;
 
-  // Обработка выбора размера
   const sizeBtns = productContainer.querySelectorAll('.size-btn');
   let selectedSize = product.sizes[0];
 
@@ -486,7 +504,6 @@ function initProductDetailsPage() {
     });
   });
 
-  // Добавление в корзину со страницы товара
   const addBtn = document.getElementById('detailAddToCartBtn');
   if (addBtn) {
     addBtn.addEventListener('click', () => {
@@ -495,7 +512,67 @@ function initProductDetailsPage() {
   }
 }
 
-/* 8. СТРАНИЦА КОРЗИНЫ И ОФОРМЛЕНИЕ ЗАКАЗА (cart.html) */
+/* 9. СТРАНИЦА ИЗБРАННОГО (wishlist.html) */
+function initWishlistPage() {
+  const wishlistContainer = document.getElementById('wishlistDynamicGrid');
+  if (!wishlistContainer) return;
+
+  renderWishlistItems();
+}
+
+function renderWishlistItems() {
+  const wishlistContainer = document.getElementById('wishlistDynamicGrid');
+  if (!wishlistContainer) return;
+
+  const wishlistIds = getWishlist();
+  const favoriteProducts = PRODUCTS_DATA.filter(p => wishlistIds.includes(p.id));
+
+  wishlistContainer.innerHTML = '';
+
+  if (favoriteProducts.length === 0) {
+    wishlistContainer.innerHTML = `
+      <div class="empty-cart-card" style="grid-column: 1 / -1;">
+        <div class="empty-icon-wrapper" style="color: var(--text-muted); margin-bottom: 0.8rem;">
+          ${SVG_ICONS.heartOutline}
+        </div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">Список избранного пуст</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.2rem;">Сохраняйте понравившиеся вещи, нажав на иконку сердечка на карточке товара</p>
+        <a href="index.html" class="btn-primary" style="width: auto; padding: 0.7rem 1.8rem;">Перейти в каталог</a>
+      </div>
+    `;
+    return;
+  }
+
+  favoriteProducts.forEach(product => {
+    const card = document.createElement('article');
+    card.className = 'product-card';
+
+    card.innerHTML = `
+      <div class="product-img-wrapper">
+        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+        <button class="btn-wishlist active" data-id="${product.id}" onclick="toggleWishlist('${product.id}', this, event)" title="Удалить из избранного">
+          ${SVG_ICONS.heartFilled}
+        </button>
+        <a href="product.html?id=${product.id}">
+          <img src="${product.img}" alt="${product.title}" class="product-img" loading="lazy">
+        </a>
+      </div>
+      <div class="product-info">
+        <div>
+          <a href="product.html?id=${product.id}"><h3 class="product-title">${product.title}</h3></a>
+          <div class="price-current">${product.price} BYN</div>
+        </div>
+        <button class="btn-quick-add" onclick="addToCart('${product.id}', '${product.sizes[0]}', event)">
+          + В корзину
+        </button>
+      </div>
+    `;
+
+    wishlistContainer.appendChild(card);
+  });
+}
+
+/* 10. СТРАНИЦА КОРЗИНЫ И ОФОРМЛЕНИЕ ЗАКАЗА (cart.html) */
 function initCartPage() {
   const cartListContainer = document.getElementById('cartItemsList');
   if (!cartListContainer) return;
@@ -548,7 +625,9 @@ function renderCartItems() {
   if (cart.length === 0) {
     cartListContainer.innerHTML = `
       <div class="empty-cart-card">
-        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🛒</div>
+        <div class="empty-icon-wrapper" style="color: var(--text-muted); margin-bottom: 0.8rem;">
+          ${SVG_ICONS.cart}
+        </div>
         <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">Ваша корзина пуста</h3>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.2rem;">Добавьте понравившиеся вещи из каталога</p>
         <a href="index.html" class="btn-primary" style="width: auto; padding: 0.7rem 1.8rem;">Перейти в каталог</a>
@@ -576,7 +655,7 @@ function renderCartItems() {
           <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
         </div>
       </div>
-      <button class="cart-remove-btn" onclick="removeCartItem(${index})" title="Удалить">✕</button>
+      <button class="cart-remove-btn" onclick="removeCartItem(${index})" title="Удалить">${SVG_ICONS.close}</button>
     `;
     cartListContainer.appendChild(itemEl);
   });
@@ -618,7 +697,7 @@ function updateOrderSummary(subtotal) {
   if (totalEl) totalEl.textContent = `${total} BYN`;
 }
 
-/* 9. МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ ЗАКАЗА */
+/* 11. МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ ЗАКАЗА */
 function showOrderConfirmationModal(orderData) {
   let modal = document.getElementById('orderModal');
   if (!modal) {
@@ -638,7 +717,7 @@ function showOrderConfirmationModal(orderData) {
   modal.innerHTML = `
     <div class="modal-dialog">
       <div class="modal-header">
-        <div class="modal-icon">🎉</div>
+        <div class="modal-icon">${SVG_ICONS.checkCircle}</div>
         <h2>Заказ #${orderData.orderId} оформлен!</h2>
         <p style="font-size: 0.85rem; color: var(--text-secondary);">Спасибо за ваш заказ, ${orderData.name}!</p>
       </div>
@@ -653,10 +732,10 @@ function showOrderConfirmationModal(orderData) {
           </div>
         </div>
 
-        <div style="font-size: 0.82rem; color: var(--text-secondary); background: var(--bg-primary); padding: 0.8rem; border-radius: var(--radius-md);">
-          📍 <strong>Доставка:</strong> ${orderData.address}<br>
-          📞 <strong>Телефон:</strong> ${orderData.phone}<br>
-          🚚 <strong>Ориентировочная дата:</strong> завтра с 10:00 до 18:00
+        <div style="font-size: 0.82rem; color: var(--text-secondary); background: var(--bg-primary); padding: 0.8rem; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 0.3rem;">
+          <div>${SVG_ICONS.location} <strong>Доставка:</strong> ${orderData.address}</div>
+          <div>${SVG_ICONS.phone} <strong>Телефон:</strong> ${orderData.phone}</div>
+          <div>${SVG_ICONS.truck} <strong>Ориентировочная дата:</strong> завтра с 10:00 до 18:00</div>
         </div>
       </div>
 
